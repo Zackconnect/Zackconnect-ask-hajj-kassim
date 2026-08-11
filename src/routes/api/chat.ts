@@ -110,8 +110,14 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key = process.env["LOVABLE_API_KEY"];
-        if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+        const key =
+          process.env["LOVABLE_API_KEY"] ?? process.env["VITE_LOVABLE_API_KEY"];
+        if (!key) {
+          return new Response(
+            "Missing LOVABLE_API_KEY environment variable. Set LOVABLE_API_KEY in your server environment or .env file.",
+            { status: 500 },
+          );
+        }
 
         const uiMessages = messages as UIMessage[];
         const last = uiMessages[uiMessages.length - 1];

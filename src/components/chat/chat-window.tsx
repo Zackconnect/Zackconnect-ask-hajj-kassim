@@ -72,8 +72,8 @@ export function ChatWindow({
     onFinish: ({ message }) => {
       if (message.role === "assistant") onAssistantMessage?.(message);
     },
-    onError: () => {
-      toast.error(t("chat.error"));
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("chat.error"));
     },
   });
 
@@ -203,7 +203,11 @@ export function ChatWindow({
           {status === "submitted" ? (
             <Shimmer className="text-sm">{t("chat.thinking")}</Shimmer>
           ) : null}
-          {error ? <p className="text-sm text-destructive">{t("chat.error")}</p> : null}
+          {error ? (
+            <p className="text-sm text-destructive">
+              {error instanceof Error ? error.message : t("chat.error")}
+            </p>
+          ) : null}
         </ConversationContent>
         <ConversationScrollButton />
       </Conversation>
