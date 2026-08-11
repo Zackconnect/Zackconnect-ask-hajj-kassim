@@ -5,8 +5,6 @@ import { useState } from "react";
 import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { LANGUAGES, useI18n } from "@/i18n";
-import { useSession } from "@/hooks/use-session";
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -54,7 +52,6 @@ function LanguageSwitcher({ stacked }: { stacked?: boolean }) {
 
 export function SiteHeader() {
   const { t } = useI18n();
-  const { user } = useSession();
   const [open, setOpen] = useState(false);
 
   return (
@@ -78,15 +75,6 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-3 md:flex">
           <LanguageSwitcher />
-          {user ? (
-            <Button variant="ghost" size="sm" onClick={() => void supabase.auth.signOut()}>
-              {t("nav.logout")}
-            </Button>
-          ) : (
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/auth">{t("nav.login")}</Link>
-            </Button>
-          )}
           <Button size="sm" asChild>
             <Link to="/ask">{t("nav.ask")}</Link>
           </Button>
@@ -125,17 +113,11 @@ export function SiteHeader() {
             <LanguageSwitcher stacked />
           </div>
           <div className="mt-4">
-            {user ? (
-              <Button variant="outline" className="w-full" onClick={() => void supabase.auth.signOut()}>
-                {t("nav.logout")}
-              </Button>
-            ) : (
-              <Button variant="outline" className="w-full" asChild>
-                <Link to="/auth" onClick={() => setOpen(false)}>
-                  {t("nav.login")}
-                </Link>
-              </Button>
-            )}
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/auth" onClick={() => setOpen(false)}>
+                {t("nav.login")}
+              </Link>
+            </Button>
           </div>
         </div>
       ) : null}
