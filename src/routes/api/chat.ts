@@ -110,11 +110,18 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key =
-          process.env["LOVABLE_API_KEY"] ?? process.env["VITE_LOVABLE_API_KEY"];
+        const apiKeyNames = [
+          "LOVABLE_API_KEY",
+          "VITE_LOVABLE_API_KEY",
+          "LOVABLE_KEY",
+          "VITE_LOVABLE_KEY",
+          "LOVEABLE_API_KEY",
+          "VITE_LOVEABLE_API_KEY",
+        ];
+        const key = apiKeyNames.map((name) => process.env[name]).find(Boolean);
         if (!key) {
           return new Response(
-            "Missing LOVABLE_API_KEY environment variable. Set LOVABLE_API_KEY in your server environment or .env file.",
+            `Missing Lovable API key. Set one of these environment variables in your server environment or .env file: ${apiKeyNames.join(", ")}`,
             { status: 500 },
           );
         }
