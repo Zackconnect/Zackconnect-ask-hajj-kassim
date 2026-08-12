@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "envPrefix": "VITE_",
+  "functions": {
+    "src/routes/api/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
