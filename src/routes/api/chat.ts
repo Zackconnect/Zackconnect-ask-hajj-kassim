@@ -131,7 +131,7 @@ export const Route = createFileRoute("/api/chat")({
 
         try {
           const result = streamText({
-            model: gateway("llama-3.1-70b-versatile"),
+            model: gateway("mixtral-8x7b-32768"),
             system: buildSystemPrompt(body.language ?? "en", question),
             messages: await convertToModelMessages(uiMessages),
             abortSignal: request.signal,
