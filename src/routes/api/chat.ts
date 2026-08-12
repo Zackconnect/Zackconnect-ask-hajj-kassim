@@ -110,18 +110,11 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const apiKeyNames = [
-          "LOVABLE_API_KEY",
-          "VITE_LOVABLE_API_KEY",
-          "LOVABLE_KEY",
-          "VITE_LOVABLE_KEY",
-          "LOVEABLE_API_KEY",
-          "VITE_LOVEABLE_API_KEY",
-        ];
-        const key = apiKeyNames.map((name) => process.env[name]).find(Boolean);
+        const key = process.env.LOVABLE_API_KEY;
+        console.debug("LOVABLE_API_KEY present:", Boolean(key));
         if (!key) {
           return new Response(
-            `Missing Lovable API key. Set one of these environment variables in your server environment or .env file: ${apiKeyNames.join(", ")}`,
+            "Missing Lovable API key. Set LOVABLE_API_KEY in your server environment.",
             { status: 500 },
           );
         }
@@ -142,12 +135,24 @@ export const Route = createFileRoute("/api/chat")({
             system: buildSystemPrompt(body.language ?? "en", question),
             messages: await convertToModelMessages(uiMessages),
             abortSignal: request.signal,
+            onError: ({ error }) => {
+              console.error("lovable stream error", error);
+              return error instanceof Error ? error.message : String(error);
+            },
           });
 
           return result.toUIMessageStreamResponse({ originalMessages: uiMessages });
         } catch (error) {
           console.error("chat error", error);
-          return new Response("The assistant is unavailable right now.", { status: 502 });
+          const message =
+            error instanceof Error
+              ? error.message
+              : typeof error === "string"
+              ? error
+              : JSON.stringify(error);
+          return new Response(message || "The assistant is unavailable right now.", {
+            status: 502,
+          });
         }
       },
     },
