@@ -110,11 +110,11 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key = process.env.OPENAI_API_KEY;
-        console.debug("OPENAI_API_KEY present:", Boolean(key));
+        const key = process.env.GROQ_API_KEY;
+        console.debug("GROQ_API_KEY present:", Boolean(key));
         if (!key) {
           return new Response(
-            "Missing OpenAI API key. Set OPENAI_API_KEY in your server environment.",
+            "Missing Groq API key. Set GROQ_API_KEY in your server environment.",
             { status: 500 },
           );
         }

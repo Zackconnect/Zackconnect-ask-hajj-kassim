@@ -1,12 +1,12 @@
-import { createOpenAI } from "@ai-sdk/openai";
+import { createGroq } from "@ai-sdk/groq";
 
 /**
- * OpenAI provider. Server-only.
- * Uses OpenAI API for AI-powered responses.
+ * Groq provider. Server-only.
+ * Uses Groq API for AI-powered responses (completely free).
  */
 export function createLovableAiGatewayProvider(apiKey: string) {
-  const openai = createOpenAI({
+  const groq = createGroq({
     apiKey: apiKey,
   });
-  return openai("gpt-4o-mini");
+  return groq("mixtral-8x7b-32768");
 }
