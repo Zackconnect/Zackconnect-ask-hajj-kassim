@@ -131,12 +131,12 @@ export const Route = createFileRoute("/api/chat")({
 
         try {
           const result = streamText({
-            model: gateway("google/gemini-3.5-flash"),
+            model: gateway("llama-3.1-70b-versatile"),
             system: buildSystemPrompt(body.language ?? "en", question),
             messages: await convertToModelMessages(uiMessages),
             abortSignal: request.signal,
             onError: ({ error }) => {
-              console.error("lovable stream error", error);
+              console.error("groq stream error", error);
               return error instanceof Error ? error.message : String(error);
             },
           });
