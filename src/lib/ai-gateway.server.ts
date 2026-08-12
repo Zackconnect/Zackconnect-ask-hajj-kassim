@@ -1,15 +1,12 @@
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { createOpenAI } from "@ai-sdk/openai";
 
 /**
- * Lovable AI Gateway provider. Server-only.
+ * OpenAI provider. Server-only.
+ * Uses OpenAI API for AI-powered responses.
  */
 export function createLovableAiGatewayProvider(apiKey: string) {
-  return createOpenAICompatible({
-    name: "lovable-ai-gateway",
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    headers: {
-      "Lovable-API-Key": apiKey,
-      "X-Lovable-AIG-SDK": "vercel-ai-sdk",
-    },
+  const openai = createOpenAI({
+    apiKey: apiKey,
   });
+  return openai("gpt-4o-mini");
 }
