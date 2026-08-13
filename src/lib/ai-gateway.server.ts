@@ -1,11 +1,15 @@
-import { createGroq } from "@ai-sdk/groq";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 /**
- * Groq provider. Server-only.
- * Uses Groq API for AI-powered responses (completely free).
+ * Together.ai provider. Server-only.
+ * Uses Together.ai API for AI-powered responses (completely free).
  */
 export function createLovableAiGatewayProvider(apiKey: string) {
-  return createGroq({
-    apiKey: apiKey,
+  return createOpenAICompatible({
+    name: "together",
+    baseURL: "https://api.together.xyz/v1",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+    },
   });
 }

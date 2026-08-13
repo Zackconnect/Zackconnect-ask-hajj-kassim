@@ -110,11 +110,11 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key = process.env.GROQ_API_KEY;
-        console.debug("GROQ_API_KEY present:", Boolean(key));
+        const key = process.env.TOGETHER_API_KEY;
+        console.debug("TOGETHER_API_KEY present:", Boolean(key));
         if (!key) {
           return new Response(
-            "Missing Groq API key. Set GROQ_API_KEY in your server environment.",
+            "Missing Together.ai API key. Set TOGETHER_API_KEY in your server environment.",
             { status: 500 },
           );
         }
@@ -131,12 +131,12 @@ export const Route = createFileRoute("/api/chat")({
 
         try {
           const result = streamText({
-            model: gateway("mixtral-8x7b-32768"),
+            model: gateway("meta-llama/Llama-2-7b-chat-hf"),
             system: buildSystemPrompt(body.language ?? "en", question),
             messages: await convertToModelMessages(uiMessages),
             abortSignal: request.signal,
             onError: ({ error }) => {
-              console.error("groq stream error", error);
+              console.error("together stream error", error);
               return error instanceof Error ? error.message : String(error);
             },
           });
