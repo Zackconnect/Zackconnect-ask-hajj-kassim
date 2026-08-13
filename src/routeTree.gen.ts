@@ -14,8 +14,10 @@ import { Route as AskRouteImport } from './routes/ask'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DuasRouteImport } from './routes/duas'
 import { Route as HadithRouteImport } from './routes/hadith'
+import { Route as PrayerTimesRouteImport } from './routes/prayer-times'
 import { Route as QuranRouteImport } from './routes/quran'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiPrayerTimesRouteImport } from './routes/api/prayer-times'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -42,6 +44,11 @@ const HadithRoute = HadithRouteImport.update({
   path: '/hadith',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrayerTimesRoute = PrayerTimesRouteImport.update({
+  id: '/prayer-times',
+  path: '/prayer-times',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuranRoute = QuranRouteImport.update({
   id: '/quran',
   path: '/quran',
@@ -52,6 +59,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPrayerTimesRoute = ApiPrayerTimesRouteImport.update({
+  id: '/api/prayer-times',
+  path: '/api/prayer-times',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,8 +71,10 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/duas': typeof DuasRoute
   '/hadith': typeof HadithRoute
+  '/prayer-times': typeof PrayerTimesRoute
   '/quran': typeof QuranRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/prayer-times': typeof ApiPrayerTimesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,8 +82,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/duas': typeof DuasRoute
   '/hadith': typeof HadithRoute
+  '/prayer-times': typeof PrayerTimesRoute
   '/quran': typeof QuranRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/prayer-times': typeof ApiPrayerTimesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,15 +94,34 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/duas': typeof DuasRoute
   '/hadith': typeof HadithRoute
+  '/prayer-times': typeof PrayerTimesRoute
   '/quran': typeof QuranRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/prayer-times': typeof ApiPrayerTimesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/ask' | '/auth' | '/duas' | '/hadith' | '/quran' | '/api/chat'
+    | '/'
+    | '/ask'
+    | '/auth'
+    | '/duas'
+    | '/hadith'
+    | '/prayer-times'
+    | '/quran'
+    | '/api/chat'
+    | '/api/prayer-times'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/auth' | '/duas' | '/hadith' | '/quran' | '/api/chat'
+  to:
+    | '/'
+    | '/ask'
+    | '/auth'
+    | '/duas'
+    | '/hadith'
+    | '/prayer-times'
+    | '/quran'
+    | '/api/chat'
+    | '/api/prayer-times'
   id:
     | '__root__'
     | '/'
@@ -94,8 +129,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/duas'
     | '/hadith'
+    | '/prayer-times'
     | '/quran'
     | '/api/chat'
+    | '/api/prayer-times'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -104,8 +141,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DuasRoute: typeof DuasRoute
   HadithRoute: typeof HadithRoute
+  PrayerTimesRoute: typeof PrayerTimesRoute
   QuranRoute: typeof QuranRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPrayerTimesRoute: typeof ApiPrayerTimesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -145,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HadithRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prayer-times': {
+      id: '/prayer-times'
+      path: '/prayer-times'
+      fullPath: '/prayer-times'
+      preLoaderRoute: typeof PrayerTimesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quran': {
       id: '/quran'
       path: '/quran'
@@ -159,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/prayer-times': {
+      id: '/api/prayer-times'
+      path: '/api/prayer-times'
+      fullPath: '/api/prayer-times'
+      preLoaderRoute: typeof ApiPrayerTimesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -168,8 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DuasRoute: DuasRoute,
   HadithRoute: HadithRoute,
+  PrayerTimesRoute: PrayerTimesRoute,
   QuranRoute: QuranRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPrayerTimesRoute: ApiPrayerTimesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

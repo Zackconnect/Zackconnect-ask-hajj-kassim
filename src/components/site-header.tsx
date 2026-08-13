@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { to: "/", key: "nav.home" },
   { to: "/ask", key: "nav.ask" },
+  { to: "/prayer-times", key: "nav.prayer-times" },
   { to: "/quran", key: "nav.quran" },
   { to: "/hadith", key: "nav.hadith" },
   { to: "/duas", key: "nav.duas" },
